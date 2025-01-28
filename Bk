@@ -1,0 +1,34 @@
+name: bk
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout kernel source
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential libncurses-dev bison flex libssl-dev gcc-aarch64-linux-gnu
+
+    - name: Set up environment
+      run: |
+        export CROSS_COMPILE=aarch64-linux-gnu-
+        export ARCH=arm64
+
+    - name: Build kernel
+      run: |
+        make marble_defconfig
+        make -j$(nproc) Image.gz-dtb
+
+    - name: Upload Kernel
+      uses: actions/upload-artifact@v4
+      with:
+        name: kernel
+        path: arch/arm64/boot/Image.gz-dtb
