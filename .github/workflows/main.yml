@@ -12,7 +12,7 @@ jobs:
 
     - name: Set up MemKernel as a module (M-OUT) with specified name
       run: |
-        curl -LSs "https://raw.githubusercontent.com/anko5/MemKernel/main/kernel/setup.sh" | bash -s M dogi
+        curl -LSs "https://raw.githubusercontent.com/anko5/MemKernel/main/kernel/setup.sh" | bash -s M-OUT
 
     - name: Android kernel build
       uses: lemniskett/android-kernel-actions@master
